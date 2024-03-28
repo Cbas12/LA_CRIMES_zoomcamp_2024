@@ -1,0 +1,74 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - transf_historical_data
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: get_historical_data
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks: []
+  uuid: get_historical_data
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - load_historical_data
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: transf_historical_data
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - get_historical_data
+  uuid: transf_historical_data
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: load_historical_data
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - transf_historical_data
+  uuid: load_historical_data
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2024-03-16 14:02:16.749606+00:00'
+data_integration: null
+description: null
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: load_historical_data
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags: []
+type: python
+uuid: load_historical_data
+variables_dir: /root/.mage_data/sp_project_zoomcamp
+widgets: []
