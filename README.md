@@ -1,11 +1,11 @@
 # LA CRIMES MAP AND ANALYSIS DASHBOARD PROJECT
 LA CRIMES MAP AND ANALYSIS project repository by Sebastian Peralta for DE Zoomcamp 2024 
 
-## IMPORTANT
+## Disclaimer
 
-**THIS PROJECT WAS CREATED FOR EDUCATIONAL PURPOSES. ALL THE NECESITIES MENTIONED HERE AND MENTIONS OF ANY REAL WORLD ENTITIES NEED TO BE CONSIDERED AS FICTIONAL OR NONE VERIFIED.**
+This crime dashboard is a project created for educational purposes. The data used in this dashboard is sourced from publicly available dataset and I can't confirm if its reflects real-time or official crime statistics. For more information refer to the [Crime Data from 2020 to Present page in Data.gov](https://catalog.data.gov/dataset/crime-data-from-2020-to-present). The problem described here is purely fictional. The citizens of Los Angeles do not currently have access to this specific dashboard nor the LAPD is uploading its crime registers to a Google Sheet file.
 
-## Problem
+## Problem to solve
 
 The citizens of Los Angeles need a constantly updated map for all crimes reported in the city. They need to be able to know where exactly each crime was committed and which type. For creating awareness about the situation of cyber crimes, they also require to know the commonality of this set of activities, including information of which exact type was and which are the most targeted groups. For this, a new, free and open dashboard was proposed.
 
@@ -40,11 +40,10 @@ We need to design a tool that will retrieve this data from the Google Sheet, tra
 
 **Setting up the enviroment**
 
-1) Github Codespace<br>
-This project is thought to be used with a Github Codespace, which you can learn how to set up in video DE Zoomcamp 1.4.2 - Using Github Codespaces for the Course (by Luis Oliveira):
-https://www.youtube.com/watch?v=XOSUt8Ih3zA&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=15
+1. Github Codespace<br>
+This project is thought to be used with a Github Codespace, which you can learn how to set up in video D[E Zoomcamp 1.4.2 - Using Github Codespaces for the Course (by Luis Oliveira)](https://www.youtube.com/watch?v=XOSUt8Ih3zA&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=15)
 
-2) GCP<br>
+2. GCP<br>
   For this project you'll requiere a GCP account as we'll be using Big Query, Google Cloud Storage and Google Sheets API. You can learn how to set up your GCP account and access Google Cloud Storage and Big Query in video [DE Zoomcamp 1.1.1 - Introduction to Google Cloud Platform](https://www.youtube.com/watch?v=18jIzE41fJ4&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=4). Make sure to save your api key json file, as you will need it later. Afterwards go to configure the Google Sheets API for your account by clicking this [link](https://console.cloud.google.com/apis/library/sheets.googleapis.com).<br>
   Afterwards, complete the following actions: 
   - In GCS create a new bucket with the name "sp_project_bucket" 
@@ -58,7 +57,7 @@ https://www.youtube.com/watch?v=XOSUt8Ih3zA&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhG
     CREATE OR REPLACE TABLE `[YOU_PROJECT_ID].sp_project_bq.LA_CRIME_DATA` PARTITION BY DATE_REPORTED AS SELECT * FROM `[YOU_PROJECT_ID].sp_project_bq.ext_la_crimes_data`;
   - This will create your schema and migrate 2020 to 2023 data. We'll work and test this project with 2024 data.
 
-3) Google Drive and Sheets
+3. Google Drive and Sheets
   1. Create a folder in Google Drive and upload the file "daily_crimes" located in the Necesary/Helpful files folder provided above. 
   2. Once it's in the folder, open the file and clic on "Share".   
   3. Clic in "Copy link" and you'll get an url similar to this: https://docs.google.com/spreadsheets/d/[random_string_of_characters]/edit?usp=sharing 
@@ -68,43 +67,29 @@ https://www.youtube.com/watch?v=XOSUt8Ih3zA&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhG
 **Building the pipeline**
 
 1. Start MageSpark Container 
-    1. Run the command to build the docker image:
-  
-      docker build -t mage_spark
-
-    2. Run the command to start mage:
-    
-      docker run -it --name mage_spark -e SPARK_MASTER_HOST='local' -p 6789:6789 -v $(pwd):/home/src mage_spark /app/run_app.sh mage start sp_project_zoomcamp
-
+    1. Run the command to build the docker image:  
+      `docker build -t mage_spark`
+    2. Run the command to start mage:    
+      `docker run -it --name mage_spark -e SPARK_MASTER_HOST='local' -p 6789:6789 -v $(pwd):/home/src mage_spark /app/run_app.sh mage start sp_project_zoomcamp`
     Steps a and b are only needed when creating the container, so you only need to run them once.
-
     3. (Optional) In case you want to pause your work, just run the following commands, one by one:
-
-    Get the container id:
-      
-      docker ps
-
-    Once you have the id:
-      
-      docker stop [insert docket id]
-
-    4. (Optional) When you want to resume:
-    
-      docker start [insert docket id]
-
+      Get the container id:      
+      `docker ps`
+      Once you have the id:
+      `docker stop [insert docket id]`
+    4. (Optional) When you want to resume:    
+      `docker start [insert docket id]`
 2. Adding required files to codespace
     1. Place the api key json file that you generated while setting up your GCP account in the codespace main directory. For security reasons, the .gitignore is configured to not comit any .json files into Github.
     2. Rename the file into "my_gcp_key.json"
-
 3. Making some adjustments to Mage
     1. Enter mage which should be takling port 6789 (127.0.0.1:6789/)
     2. Enter the files tab (http://127.0.0.1:6789/files) and open "io_config.yaml" and add/modify the line "GOOGLE_SERVICE_ACC_KEY_FILEPATH:" by adding "my_gcp_key.json" after the ":"
     3. Go to piplines (http://127.0.0.1:6789/pipelines?_limit=30) and access "etl_project_sp"
     4. Enter to "edit pipeline" by navigating the left bar and perform the following actions:
-      - In data loader "ext_google_sheets", change the value of the variable "sheet_url" to your own link to your own Google Sheet, which we got in step 3) of Setting up the enviroment.
+      - In data loader "ext_google_sheets", change the value of the variable "sheet_url" to your own link to your own Google Sheet, which we got in step 3. of Setting up the enviroment.
       - In the transformer "get_data_bq", change the value of the variable "query" by replacing the part that contains "spatial-vision-412003" to your own GCP project id name. Do the same for the variable "query_select".
       - In the data exporter "load_bq", change the values of the variables "table_id" and "query_max_date" by replacing the parts that contains "spatial-vision-412003" to your own GCP project id name.
-
 4. Setting trigger and testing
     1. After making sure we saved all our modifications, we'll go "Triggers" by navigating the left bar 
     2. Clic on "+ New trigger" and select "Schedule". 
