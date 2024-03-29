@@ -58,11 +58,11 @@ This project is thought to be used with a Github Codespace, which you can learn 
     ```
     - This will create your schema and migrate 2020 to 2023 data. We'll work and test this project with 2024 data.
 
-3. Google Drive and Sheets
-  1. Create a folder in Google Drive and upload the file "daily_crimes" located in the Necesary/Helpful files folder provided above.
-  2. Once it's in the folder, open the file and clic on "Share".
-  3. Clic in "Copy link" and you'll get an url similar to this: https://docs.google.com/spreadsheets/d/[random_string_of_characters]/edit?usp=sharing
-  4. We'll save that link for later.
+3. Google Drive and Sheets:
+    1. Create a folder in Google Drive and upload the file "daily_crimes" located in the Necessary/Helpful files folder provided above.
+    2. Once it's in the folder, open the file and click on "Share."
+    3. Click on "Copy link," and you'll get a URL similar to this: `https://docs.google.com/spreadsheets/d/[random_string_of_characters]/edit?usp=sharing`.
+    4. We'll save that link for later.
 
 
 ## Building the pipeline
@@ -81,8 +81,8 @@ This project is thought to be used with a Github Codespace, which you can learn 
   `docker start [insert docket id]`<br>
 
 **Adding required files to codespace**<br>
-    1. Place the api key json file that you generated while setting up your GCP account in the codespace main directory. For security reasons, the .gitignore is configured to not comit any .json files into Github.
-    2. Rename the file into "my_gcp_key.json"<br>
+1. Place the api key json file that you generated while setting up your GCP account in the codespace main directory. For security reasons, the .gitignore is configured to not comit any .json files into Github.
+2. Rename the file into "my_gcp_key.json"<br>
 
 **Making some adjustments to Mage**<br>
 1. Enter mage which should be takling port 6789 (127.0.0.1:6789/)
