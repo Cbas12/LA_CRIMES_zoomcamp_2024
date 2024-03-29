@@ -109,12 +109,12 @@ This project is thought to be used with a Github Codespace, which you can learn 
 I would like to express my gratitude to the following individuals and resources for their invaluable contributions to this project:
 
 1. **DataTalks Club Instructors**:
-   - **Ankush Khanna**: For sharing expertise and insights on data engineering.
-   - **Victoria Perez Mola**: For her guidance and support throughout the course.
-   - **Alexey Grigorev**: For teaching us about workflow orchestration with Mage.
-   - **Matt Palmer**: For his valuable input on analytics engineering.
-   - **Luis Oliveira**: For insights into batch processing and Spark.
-   - **Michael Shoemaker**: For his contributions to the course content.
+   - Ankush Khanna
+   - Victoria Perez Mola
+   - Alexey Grigorev
+   - Matt Palmer
+   - Luis Oliveira
+   - Michael Shoemaker
 
 2. **DataTalks Club Community**:
    - The vibrant community at DataTalks Club provided a supportive environment for learning and collaboration.
@@ -123,6 +123,6 @@ I would like to express my gratitude to the following individuals and resources 
    - **PySpark**, **Pandas**, **Mage.ai**, **Power BI**, **Google Sheets** and **Google Cloud Platform** were instrumental in building this project.
 
 4. **Special Thanks**:
-   - Last but not least, heartfelt thanks to the DataTalks Club instructors who helped me develop the skills necessary to create this project.
+   - Last but not least, heartfelt thanks to Matt Palmer and Alexey Grigorev, who helped me learn develop the skills necessary to create this project. Matt allowed to discover Mage, a tool that I found to be very reliable and easy to use. Alexey increased my interest and desire to work with Spark.
 
 Without their collective efforts, this project would not have been possible. 🙌🎉
