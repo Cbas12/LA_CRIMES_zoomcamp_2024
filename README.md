@@ -36,7 +36,7 @@ We need to design a tool that will retrieve this data from the Google Sheet, tra
 
 ## Running the project
 
-[*Necesary/Helpful files:*](https://drive.google.com/drive/folders/1A7cKGeQAQyzHwYU1wLqD_9zFuOK69kq9?usp=sharing)
+[*Necesary/Helpful files*](https://drive.google.com/drive/folders/1A7cKGeQAQyzHwYU1wLqD_9zFuOK69kq9?usp=sharing)
 
 **Setting up the enviroment**
 
@@ -51,9 +51,13 @@ This project is thought to be used with a Github Codespace, which you can learn 
     - In Big Query create a new dataset "sp_project_bq"
     - Create a new query, then modify and run the following commands (change [YOU_PROJECT_ID] to your GCP project id), one by one:
     ```
-    CREATE OR REPLACE EXTERNAL TABLE `[YOU_PROJECT_ID].sp_project_bq.ext_la_crimes_data` OPTIONS ( format = 'parquet', uris = ['gs://sp_project_bucket/LA_CRIME_DATA.parquet']);
+    CREATE OR REPLACE EXTERNAL TABLE `[YOU_PROJECT_ID].sp_project_bq.ext_la_crimes_data` 
+    OPTIONS ( format = 'parquet', uris = ['gs://sp_project_bucket/LA_CRIME_DATA.parquet']);
     ```
-    ```CREATE OR REPLACE TABLE `[YOU_PROJECT_ID].sp_project_bq.LA_CRIME_DATA` PARTITION BY DATE_REPORTED AS SELECT * FROM `[YOU_PROJECT_ID].sp_project_bq.ext_la_crimes_data`;```
+    ```
+    CREATE OR REPLACE TABLE `[YOU_PROJECT_ID].sp_project_bq.LA_CRIME_DATA` 
+    PARTITION BY DATE_REPORTED AS SELECT * FROM `[YOU_PROJECT_ID].sp_project_bq.ext_la_crimes_data`;
+    ```
     - This will create your schema and migrate 2020 to 2023 data. We'll work and test this project with 2024 data.
 
 3. Google Drive and Sheets
@@ -71,11 +75,11 @@ This project is thought to be used with a Github Codespace, which you can learn 
     2. Run the command to start mage (Steps a and b are only needed when creating the container, so you only need to run them once):
       `docker run -it --name mage_spark -e SPARK_MASTER_HOST='local' -p 6789:6789 -v $(pwd):/home/src mage_spark /app/run_app.sh mage start sp_project_zoomcamp`
     3. (Optional) In case you want to pause your work, just run the following commands, one by one:
-      Get the container id:      
+        - Get the container id:
       `docker ps`
-      Once you have the id:
+        - Once you have the id:
       `docker stop [insert docket id]`
-    4. (Optional) When you want to resume:    
+    4. (Optional) When you want to resume:
       `docker start [insert docket id]`
 2. Adding required files to codespace
     1. Place the api key json file that you generated while setting up your GCP account in the codespace main directory. For security reasons, the .gitignore is configured to not comit any .json files into Github.
