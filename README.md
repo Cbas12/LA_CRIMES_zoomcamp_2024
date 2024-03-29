@@ -120,7 +120,7 @@ I would like to express my gratitude to the following individuals and resources 
    - The vibrant community at DataTalks Club provided a supportive environment for learning and collaboration.
 
 3. **Open Source Tools and Platforms**:
-   - **PySpark**, **Pandas**, **Mage.ai**, **Power BI**, and **Google Cloud Platform** were instrumental in building this project.
+   - **PySpark**, **Pandas**, **Mage.ai**, **Power BI**, **Google Sheets** and **Google Cloud Platform** were instrumental in building this project.
 
 4. **Special Thanks**:
    - Last but not least, heartfelt thanks to the DataTalks Club instructors who helped me develop the skills necessary to create this project.
