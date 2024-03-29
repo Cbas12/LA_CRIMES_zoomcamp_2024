@@ -1,4 +1,4 @@
-# LA CRIMES MAP AND ANALYSIS
+# LA CRIMES MAP AND ANALYSIS DASHBOARD PROJECT
 LA CRIMES MAP AND ANALYSIS project repository by Sebastian Peralta for DE Zoomcamp 2024 
 
 ## IMPORTANT
@@ -16,7 +16,7 @@ We need to design a tool that will retrieve this data from the Google Sheet, tra
 
 ## Details of the project
 
-**The LA CRIMES MAP AND ANALYSIS uses the following tools:**
+**The LA CRIMES MAP AND ANALYSIS DASHBOARD project uses the following tools:**
 - Google Sheets
 - Google Sheets API
 - Google Cloud Storage (GCP)
@@ -36,19 +36,17 @@ We need to design a tool that will retrieve this data from the Google Sheet, tra
 
 ## Running the project
 
-**Necesary/Helpful files:* https://drive.google.com/drive/folders/1A7cKGeQAQyzHwYU1wLqD_9zFuOK69kq9?usp=sharing
+*Necesary/Helpful files:* https://drive.google.com/drive/folders/1A7cKGeQAQyzHwYU1wLqD_9zFuOK69kq9?usp=sharing
 
 **Setting up the enviroment**
 
-1) Github Codespace
+1) Github Codespace<br>
 This project is thought to be used with a Github Codespace, which you can learn how to set up in video DE Zoomcamp 1.4.2 - Using Github Codespaces for the Course (by Luis Oliveira):
 https://www.youtube.com/watch?v=XOSUt8Ih3zA&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=15
 
-2) GCP
-For this project you'll requiere a GCP account as we'll be using Big Query, Google Cloud Storage and Google Sheets API 
-
-You can learn how to set up your GCP account and access Google Cloud Storage and Big Query in video [DE Zoomcamp 1.1.1 - Introduction to Google Cloud Platform](https://www.youtube.com/watch?v=18jIzE41fJ4&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=4). Make sure to save your api key json file, as you will need it later. Afterwards go to configure the Google Sheets API for your account by clicking this [link](https://console.cloud.google.com/apis/library/sheets.googleapis.com).<br>
-Afterwards, complete the following actions: 
+2) GCP<br>
+  For this project you'll requiere a GCP account as we'll be using Big Query, Google Cloud Storage and Google Sheets API. You can learn how to set up your GCP account and access Google Cloud Storage and Big Query in video [DE Zoomcamp 1.1.1 - Introduction to Google Cloud Platform](https://www.youtube.com/watch?v=18jIzE41fJ4&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=4). Make sure to save your api key json file, as you will need it later. Afterwards go to configure the Google Sheets API for your account by clicking this [link](https://console.cloud.google.com/apis/library/sheets.googleapis.com).<br>
+  Afterwards, complete the following actions: 
   - In GCS create a new bucket with the name "sp_project_bucket" 
   - Inside the bucket upload the file "LA_CRIME_DATA.parquet" which can be find in the Necesary/Helpful files folder provided above. 
   - Inside the bucket create a folder with the name "historical_data" 
@@ -69,64 +67,55 @@ Afterwards, complete the following actions:
 
 **Building the pipeline**
 
-1) Start MageSpark Container 
-
-  1. Run the command to build the docker image:
+1. Start MageSpark Container 
+    1. Run the command to build the docker image:
   
-    docker build -t mage_spark
+      docker build -t mage_spark
 
-  2. Run the command to start mage:
-  
-    docker run -it --name mage_spark -e SPARK_MASTER_HOST='local' -p 6789:6789 -v $(pwd):/home/src mage_spark /app/run_app.sh mage start sp_project_zoomcamp
-
-  Steps a and b are only needed when creating the container, so you only need to run them once.
-
-  3. (Optional) In case you want to pause your work, just run the following commands, one by one:
-
-  Get the container id:
+    2. Run the command to start mage:
     
-    docker ps
+      docker run -it --name mage_spark -e SPARK_MASTER_HOST='local' -p 6789:6789 -v $(pwd):/home/src mage_spark /app/run_app.sh mage start sp_project_zoomcamp
 
-  Once you have the id:
+    Steps a and b are only needed when creating the container, so you only need to run them once.
+
+    3. (Optional) In case you want to pause your work, just run the following commands, one by one:
+
+    Get the container id:
+      
+      docker ps
+
+    Once you have the id:
+      
+      docker stop [insert docket id]
+
+    4. (Optional) When you want to resume:
     
-    docker stop [insert docket id]
+      docker start [insert docket id]
 
-  4. (Optional) When you want to resume:
-  
-    docker start [insert docket id]
+2. Adding required files to codespace
+    1. Place the api key json file that you generated while setting up your GCP account in the codespace main directory. For security reasons, the .gitignore is configured to not comit any .json files into Github.
+    2. Rename the file into "my_gcp_key.json"
 
-2) Adding required files to codespace
+3. Making some adjustments to Mage
+    1. Enter mage which should be takling port 6789 (127.0.0.1:6789/)
+    2. Enter the files tab (http://127.0.0.1:6789/files) and open "io_config.yaml" and add/modify the line "GOOGLE_SERVICE_ACC_KEY_FILEPATH:" by adding "my_gcp_key.json" after the ":"
+    3. Go to piplines (http://127.0.0.1:6789/pipelines?_limit=30) and access "etl_project_sp"
+    4. Enter to "edit pipeline" by navigating the left bar and perform the following actions:
+      - In data loader "ext_google_sheets", change the value of the variable "sheet_url" to your own link to your own Google Sheet, which we got in step 3) of Setting up the enviroment.
+      - In the transformer "get_data_bq", change the value of the variable "query" by replacing the part that contains "spatial-vision-412003" to your own GCP project id name. Do the same for the variable "query_select".
+      - In the data exporter "load_bq", change the values of the variables "table_id" and "query_max_date" by replacing the parts that contains "spatial-vision-412003" to your own GCP project id name.
 
-  1. Place the api key json file that you generated while setting up your GCP account in the codespace main directory. For security reasons, the .gitignore is configured to not comit any .json files into Github.
-
-  2. Rename the file into "my_gcp_key.json"
-
-3) Making some adjustments to Mage
-
-  1. Enter mage which should be takling port 6789 (127.0.0.1:6789/)
-
-  2. Enter the files tab (http://127.0.0.1:6789/files) and perform the following actions:
-    -Open "io_config.yaml" and add/modify the line "GOOGLE_SERVICE_ACC_KEY_FILEPATH:" by adding "my_gcp_key.json" after the ":"
-
-  3. Go to piplines (http://127.0.0.1:6789/pipelines?_limit=30) and access "etl_project_sp"
-
-  4. Enter to "edit pipeline" by navigating the left bar and perform the following actions:
-    - In data loader "ext_google_sheets", change the value of the variable "sheet_url" to your own link to your own Google Sheet, which we got in step 3) of Setting up the enviroment.
-    - In the transformer "get_data_bq", change the value of the variable "query" by replacing the part that contains "spatial-vision-412003" to your own GCP project id name. Do the same for the variable "query_select".
-    - In the data exporter "load_bq", change the values of the variables "table_id" and "query_max_date" by replacing the parts that contains "spatial-vision-412003" to your own GCP project id name.
-
-4) Setting trigger and testing
-
-  1. After making sure we saved all our modifications, we'll go "Triggers" by navigating the left bar 
-  2. Clic on "+ New trigger" and select "Schedule". 
-  3. Put a name to your trigger, select a the "daily" frecuency and configure the "Start date and time" to tomorrow at 00:10. 
-  4. Clic on "Saves changes" 
-  5. Enter your newly created trigger and clic on "Enable trigger" before clicing in "Run@once". 
-  6. Wait for the pipiline to finish and confirm the "Done" status before going into Big Query and checking the results. The LA_CRIME_DATA table should now have Jan 1 2024 data. 
+4. Setting trigger and testing
+    1. After making sure we saved all our modifications, we'll go "Triggers" by navigating the left bar 
+    2. Clic on "+ New trigger" and select "Schedule". 
+    3. Put a name to your trigger, select a the "daily" frecuency and configure the "Start date and time" to tomorrow at 00:10. 
+    4. Clic on "Saves changes" 
+    5. Enter your newly created trigger and clic on "Enable trigger" before clicing in "Run@once". 
+    6. Wait for the pipiline to finish and confirm the "Done" status before going into Big Query and checking the results. The LA_CRIME_DATA table should now have Jan 1 2024 data. 
 
 
 **OPTIONAL STEPS**
-If you wish to make some additional test with other days of data, you just need to open your Google Sheet and paste the data from the file "Crime_Data_2024_fragment.xlsx" which is found in place the Necesary/Helpful files folder. Enter the file and filter any day you want to test before copying and pasting it to the Google Sheet 
+<br>If you wish to make some additional test with other days of data, you just need to open your Google Sheet and paste the data from the file "Crime_Data_2024_fragment.xlsx" which is found in place the Necesary/Helpful files folder. Enter the file and filter any day you want to test before copying and pasting it to the Google Sheet 
 
 ## Acknowledgments
 
