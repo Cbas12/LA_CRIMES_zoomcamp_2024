@@ -1,5 +1,5 @@
 # LA CRIMES MAP AND ANALYSIS DASHBOARD PROJECT
-LA CRIMES MAP AND ANALYSIS project repository by Sebastian Peralta for DE Zoomcamp 2024 
+Welcome to the LA Crimes Map and Analysis project repository, created by Sebastian Peralta for the Data Engineering Zoomcamp 2024, organized by the DataTalks Club community. In this project, we explore crimes commited in Los Angeles, aiming to create awareness and insights through data visualization and analysis.
 
 ## Disclaimer
 
@@ -50,7 +50,9 @@ This project is thought to be used with a Github Codespace, which you can learn 
     - Inside the bucket create a folder with the name "historical_data"
     - In Big Query create a new dataset "sp_project_bq"
     - Create a new query, then modify and run the following commands (change [YOU_PROJECT_ID] to your GCP project id), one by one:
-    ```CREATE OR REPLACE EXTERNAL TABLE `[YOU_PROJECT_ID].sp_project_bq.ext_la_crimes_data` OPTIONS ( format = 'parquet', uris = ['gs://sp_project_bucket/LA_CRIME_DATA.parquet']);```
+    ```
+    CREATE OR REPLACE EXTERNAL TABLE `[YOU_PROJECT_ID].sp_project_bq.ext_la_crimes_data` OPTIONS ( format = 'parquet', uris = ['gs://sp_project_bucket/LA_CRIME_DATA.parquet']);
+    ```
     ```CREATE OR REPLACE TABLE `[YOU_PROJECT_ID].sp_project_bq.LA_CRIME_DATA` PARTITION BY DATE_REPORTED AS SELECT * FROM `[YOU_PROJECT_ID].sp_project_bq.ext_la_crimes_data`;```
     - This will create your schema and migrate 2020 to 2023 data. We'll work and test this project with 2024 data.
 
@@ -82,10 +84,10 @@ This project is thought to be used with a Github Codespace, which you can learn 
     1. Enter mage which should be takling port 6789 (127.0.0.1:6789/)
     2. Enter the files tab (http://127.0.0.1:6789/files) and open "io_config.yaml" and add/modify the line "GOOGLE_SERVICE_ACC_KEY_FILEPATH:" by adding "my_gcp_key.json" after the ":"
     3. Go to piplines (http://127.0.0.1:6789/pipelines?_limit=30) and access "etl_project_sp"
-    4. Enter to "edit pipeline" by navigating the left bar and perform the following actions:
-      1. In data loader "ext_google_sheets", change the value of the variable "sheet_url" to your own link to your own Google Sheet, which we got in step 3. of Setting up the enviroment.
-      2. In the transformer "get_data_bq", change the value of the variable "query" by replacing the part that contains "spatial-vision-412003" to your own GCP project id name. Do the same for the variable "query_select".
-      3. In the data exporter "load_bq", change the values of the variables "table_id" and "query_max_date" by replacing the parts that contains "spatial-vision-412003" to your own GCP project id name.
+    4. To edit the pipeline, follow these steps:
+        - In the data loader component "ext_google_sheets", update the value of the variable "sheet_url" with your own link to your Google Sheet (as obtained in step 3 of setting up the environment).
+        - In the transformer component "get_data_bq", replace the part of the variable "query" that contains "spatial-vision-412003" with your own GCP project ID name. Do the same for the variable "query_select".
+        - In the data exporter component "load_bq", replace the values of the variables "table_id" and "query_max_date" with your own GCP project ID name.
 4. Setting trigger and testing
     1. After making sure we saved all our modifications, we'll go "Triggers" by navigating the left bar 
     2. Clic on "+ New trigger" and select "Schedule". 
