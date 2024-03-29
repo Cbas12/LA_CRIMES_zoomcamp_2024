@@ -75,19 +75,19 @@ This project is thought to be used with a Github Codespace, which you can learn 
     2. Run the command to start mage (Steps a and b are only needed when creating the container, so you only need to run them once):
       `docker run -it --name mage_spark -e SPARK_MASTER_HOST='local' -p 6789:6789 -v $(pwd):/home/src mage_spark /app/run_app.sh mage start sp_project_zoomcamp`
     3. (Optional) In case you want to pause your work, just run the following commands, one by one:
-        - Get the container id:
+        - Get the container id:<br>
       `docker ps`
-        - Once you have the id:
+        - Once you have the id:<br>
       `docker stop [insert docket id]`
-    4. (Optional) When you want to resume:
+    4. (Optional) When you want to resume:<br>
       `docker start [insert docket id]`
 2. Adding required files to codespace
     1. Place the api key json file that you generated while setting up your GCP account in the codespace main directory. For security reasons, the .gitignore is configured to not comit any .json files into Github.
     2. Rename the file into "my_gcp_key.json"
 3. Making some adjustments to Mage
     1. Enter mage which should be takling port 6789 (127.0.0.1:6789/)
-    2. Enter the files tab (http://127.0.0.1:6789/files) and open "io_config.yaml" and add/modify the line "GOOGLE_SERVICE_ACC_KEY_FILEPATH:" by adding "my_gcp_key.json" after the ":"
-    3. Go to piplines (http://127.0.0.1:6789/pipelines?_limit=30) and access "etl_project_sp"
+    2. Enter the files tab (should be in: http://127.0.0.1:6789/files) and open "io_config.yaml" and add/modify the line "GOOGLE_SERVICE_ACC_KEY_FILEPATH:" by adding "my_gcp_key.json" after the ":"
+    3. Go to piplines (should be in: http://127.0.0.1:6789/pipelines?_limit=30) and access "etl_project_sp"
     4. To edit the pipeline, follow these steps:
         - In the data loader component "ext_google_sheets", update the value of the variable "sheet_url" with your own link to your Google Sheet (as obtained in step 3 of setting up the environment).
         - In the transformer component "get_data_bq", replace the part of the variable "query" that contains "spatial-vision-412003" with your own GCP project ID name. Do the same for the variable "query_select".
