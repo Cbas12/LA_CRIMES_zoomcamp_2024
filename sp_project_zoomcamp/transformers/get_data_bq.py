@@ -16,13 +16,15 @@ def transform_in_bigquery(*args, **kwargs) -> DataFrame:
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'default'
 
+    gcp_project = "spatial-vision-412003"
+
     query = (
-        "CREATE OR REPLACE EXTERNAL TABLE `spatial-vision-412003.sp_project_bq.external_crime_temp` "
+        "CREATE OR REPLACE EXTERNAL TABLE `"+gcp_project+".sp_project_bq.external_crime_temp` "
         "OPTIONS ( format = 'parquet', uris = ['gs://sp_project_bucket/new_crime_data.parquet']);"
     )
 
     query_select = (
-        "SELECT * FROM `spatial-vision-412003.sp_project_bq.external_crime_temp`"
+        "SELECT * FROM `"+gcp_project+".sp_project_bq.external_crime_temp`"
     )
 
     BigQuery.with_config(ConfigFileLoader(config_path, config_profile)).execute(query)

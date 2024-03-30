@@ -18,8 +18,6 @@ def load_from_google_sheet(*args, **kwargs):
     #daily crimes
     sheet_url = 'https://docs.google.com/spreadsheets/d/1-GpKDEI9_sj9U-MmtYPT6HnJjpaSuXN9GNZLYwUY1No/edit?usp=sharing'
     
-    #test
-    #sheet_url = 'https://docs.google.com/spreadsheets/d/11XpEfrNR-vf5wcjuEXpsG_ITCxmGvfoum2Yqciv59_g/edit?usp=sharing'
     
     df = GoogleSheets.with_config(ConfigFileLoader(config_path, config_profile)).load(
         sheet_url=sheet_url,
@@ -58,7 +56,7 @@ def load_from_google_sheet(*args, **kwargs):
     }
 
     df = df.astype(new_types)
-    print('aqui3')
+    
     return df
 
 

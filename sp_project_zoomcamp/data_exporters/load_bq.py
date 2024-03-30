@@ -20,13 +20,13 @@ def load_to_bq(def_df,def_table_id,def_config_path,def_config_profile):
 @data_exporter
 def export_data_to_big_query(df: DataFrame, **kwargs) -> None:  
     
-    #spatial-vision-412003.sp_project_bq.LA_CRIME_DATA
-    table_id = 'spatial-vision-412003.sp_project_bq.LA_CRIME_DATA'
+    gcp_project = "spatial-vision-412003"
+    table_id = gcp_project+".sp_project_bq.LA_CRIME_DATA"
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'default'
 
     #compare dates
-    query_max_date = "SELECT MAX(DATE_REPORTED) FROM `spatial-vision-412003.sp_project_bq.LA_CRIME_DATA`;"
+    query_max_date = "SELECT MAX(DATE_REPORTED) FROM `"+table_id+"`;"
     bq_max_date = BigQuery.with_config(ConfigFileLoader(config_path, config_profile)).load(query_max_date)
     bq_max_date = str(bq_max_date.iloc[0,0])
     print("\\nbq_max_date: "+bq_max_date+"\\n")

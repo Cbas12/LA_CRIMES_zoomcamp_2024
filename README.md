@@ -59,7 +59,7 @@ This project is thought to be used with a Github Codespace, which you can learn 
     - This will create your schema and migrate 2020 to 2023 data. We'll work and test this project with 2024 data.
 
 3. Google Drive and Sheets:
-    1. Create a folder in Google Drive and upload the file "daily_crimes" located in the Necessary/Helpful files folder provided above.
+    1. Create a folder in Google Drive and upload the file "daily_crimes" located in the *Necessary/Helpful files* folder provided above.
     2. Once it's in the folder, open the file and click on "Share."
     3. Click on "Copy link," and you'll get a URL similar to this: `https://docs.google.com/spreadsheets/d/[random_string_of_characters]/edit?usp=sharing`.
     4. We'll save that link for later.
@@ -69,40 +69,42 @@ This project is thought to be used with a Github Codespace, which you can learn 
 
 **Start MageSpark Container**<br>
 1. Run the command to build the docker image:  
-  `docker build -t mage_spark`
+  `docker build -t mage_spark .`
 2. Run the command to start mage (Steps a and b are only needed when creating the container, so you only need to run them once):
   `docker run -it --name mage_spark -e SPARK_MASTER_HOST='local' -p 6789:6789 -v $(pwd):/home/src mage_spark /app/run_app.sh mage start sp_project_zoomcamp`
-3. (Optional) In case you want to pause your work, just run the following commands, one by one:
+3. (Optional) In case you want to pause your work, just Ctrl + C.
+4. (Optional) When you want to resume your work run the following commands, one by one:
     - Get the container id:<br>
   `docker ps`
     - Once you have the id:<br>
-  `docker stop [insert docket id]`
-4. (Optional) When you want to resume:<br>
-  `docker start [insert docket id]`<br>
+  `docker start [insert docket id]`
+5. (Optional) When you want to stop again:<br>
+  `docker stop [insert docket id]`<br>
 
 **Adding required files to codespace**<br>
 1. Place the api key json file that you generated while setting up your GCP account in the codespace main directory. For security reasons, the .gitignore is configured to not comit any .json files into Github.
-2. Rename the file into "my_gcp_key.json"<br>
+2. Rename the file into "my_gcp_api_key.json"<br>
 
 **Making some adjustments to Mage**<br>
-1. Enter mage which should be takling port 6789 (127.0.0.1:6789/)
-2. Enter the files tab (should be in: http://127.0.0.1:6789/files) and open "io_config.yaml" and add/modify the line "GOOGLE_SERVICE_ACC_KEY_FILEPATH:" by adding "my_gcp_key.json" after the ":"
-3. Go to piplines (should be in: http://127.0.0.1:6789/pipelines?_limit=30) and access "etl_project_sp"
-4. To edit the pipeline, follow these steps:
+1. Enter mage which should be taking port 6789. You'll find the link in the "Ports" section of your codespace.
+2. After mage loads, enter the piplines tab and access "etl_project_sp"
+3. To edit the pipeline, follow these steps:
+    - Enter the "Edit pipeline" tab
     - In the data loader component "ext_google_sheets", update the value of the variable "sheet_url" with your own link to your Google Sheet (as obtained in step 3 of setting up the environment).
-    - In the transformer component "get_data_bq", replace the part of the variable "query" that contains "spatial-vision-412003" with your own GCP project ID name. Do the same for the variable "query_select".
-    - In the data exporter component "load_bq", replace the values of the variables "table_id" and "query_max_date" with your own GCP project ID name.<br>
+    - In the transformer component "get_data_bq", replace the value of the variable "gcp_project" with the name of your own GCP project ID name.
+    - In the data exporter component "load_bq", do the same as the previous step, replace the value of the variable "gcp_project" with the name of your own GCP project ID name.<br>
 
 **Setting trigger and testing**<br>
 1. After making sure we saved all our modifications, we'll go "Triggers" by navigating the left bar 
 2. Clic on "+ New trigger" and select "Schedule". 
-3. Put a name to your trigger, select a the "daily" frecuency and configure the "Start date and time" to tomorrow at 00:10. 
-4. Clic on "Saves changes" 
-5. Enter your newly created trigger and clic on "Enable trigger" before clicing in "Run@once". 
-6. Wait for the pipiline to finish and confirm the "Done" status before going into Big Query and checking the results. The LA_CRIME_DATA table should now have Jan 1 2024 data.<br>
+3. Put a name to your trigger, select a the "custom" frecuency.
+4. In "Cron expression" place the next syntax: `10 0 * * *`. This will configure the pipeline to run every day at 00:10.
+5. Clic on "Saves changes" 
+6. Enter your newly created trigger and clic on "Enable trigger" before clicing in "Run@once". 
+7. Wait for the pipiline to finish and confirm the "Done" status before going into Big Query and checking the results. The LA_CRIME_DATA table should now have Jan 1 2024 data.<br>
 
 **OPTIONAL STEPS**
-<br>If you wish to make some additional tests with other days of data, you just need to open your Google Sheet and paste the data from the file "Crime_Data_2024_fragment.xlsx" which is found in place the Necesary/Helpful files folder. Enter the file and filter any day you want to test before copying and pasting it to the Google Sheet 
+<br>If you wish to make some additional tests with other days of data, you just need to open your Google Sheet and paste the data from the file "Crime_Data_2024_fragment.xlsx" which is found in place the Necesary/Helpful files folder. Enter the file and filter any day you want to test before copying and pasting it to the Google Sheet. You can also test the triggers by changing the cron expression to different times.
 
 ## Acknowledgments
 
