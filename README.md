@@ -33,6 +33,7 @@ We need to design a tool that will retrieve this data from the Google Sheet, tra
 6) Mage inserts the new data into the main table, but only the the rows that belong to a later date than the latest one found in the main table, in order to avoid duplicating information. This is in case there is ever any issue with the updates of the Google Sheet file.
 7) The Power BI dashboards connects directly to the data of the main table
 
+**Final result: [Dashboard](https://app.powerbi.com/view?r=eyJrIjoiYWUxMDJiZWItZjdjMi00YTYxLTlmYWYtYmFkYzIwZmE3YmYxIiwidCI6IjBlMGNiMDYwLTA5YWQtNDlmNS1hMDA1LTY4YjliNDlhYTFmNiIsImMiOjR9)**
 
 ## Setting up the enviroment
 
