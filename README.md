@@ -5,6 +5,12 @@ Welcome to the LA Crimes Map and Analysis project repository, created by Sebasti
 
 This crime dashboard is a project created for educational purposes. The data used in this dashboard is sourced from publicly available dataset and I can't confirm if its reflects real-time or official crime statistics. For more information refer to the [Crime Data from 2020 to Present page in Data.gov](https://catalog.data.gov/dataset/crime-data-from-2020-to-present). The problem described here is purely fictional. The citizens of Los Angeles do not currently have access to this specific dashboard nor the LAPD is uploading its crime registers to a Google Sheet file.
 
+
+## Contact
+
+Any doubts or concerns about running the program please contact me through the next email: sebastianperalta@hotmail.com
+
+
 ## Problem to solve
 
 The citizens of Los Angeles need a constantly updated map for all crimes reported in the city. They need to be able to know where exactly each crime was committed and which type. For creating awareness about the situation of cyber crimes, they also require to know the commonality of this set of activities, including information of which exact type was and which are the most targeted groups. For this, a new, free and open dashboard was proposed.
